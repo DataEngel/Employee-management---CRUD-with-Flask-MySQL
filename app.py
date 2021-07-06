@@ -1,9 +1,12 @@
 #from logging import debug
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 from flaskext.mysql import MySQL
+from flask import send_from_directory 
+
 from datetime import datetime 
 import os
+
 
 from pymysql.cursors import Cursor 
 
@@ -16,8 +19,12 @@ app.config['MYSQL_DATABASE_PASSWORD']='331050'
 app.config['MYSQL_DATABASE_DB']='sistema'
 mysql.init_app(app)  
 
-CARPETA = os.path.join('uploads/') 
+CARPETA = os.path.join('uploads') 
 app.config['CARPETA']=CARPETA
+
+@app.route('/uploads/<nombreFoto>')
+def uploads(nombreFoto):
+    return send_from_directory(app.config['CARPETA'],nombreFoto) 
 
 @app.route('/')
 def index():
@@ -123,7 +130,7 @@ def storage():
     cursor.execute(sql, datos) 
     conn.commit()
     
-    return render_template('empleados/index.html')
+    return redirect('/')  
 
 
 if __name__ == '__main__':
