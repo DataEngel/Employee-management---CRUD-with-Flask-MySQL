@@ -1,6 +1,18 @@
 
 {% include 'header.html' %} 
 
+{% with messages = get_flashed_messages() %} 
+
+{% if messages %} 
+|   <div class="alert alert-danger" role="alert">
+    {% for message in messages %} 
+        {{ message }}
+    {% endfor %} 
+    </div>
+{% endif %} 
+
+{% endwith %}  
+
 <br><br>
 
 <form method="post" action="/store" enctype="multipart/form-data">+
@@ -30,7 +42,7 @@
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-success" value="Agregar"> 
-                    <a href="{{url_for("index")}}" class="btn btn-primary" >Regresar</a>
+                    <a href="{{url_for('index')}}" class="btn btn-primary" >Regresar</a> 
                 </div>
 
             </p>
